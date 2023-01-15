@@ -136,7 +136,7 @@ void gck_rpc_log(const char *msg, ...)
 	vfprintf(stderr, msg, ap);
 	fprintf(stderr, "\n");
 #else
-        vsyslog(LOG_INFO,msg,ap);        
+        vsyslog(LOG_INFO,msg,ap);
 #endif
 	va_end(ap);
 }
@@ -2223,6 +2223,7 @@ static void run_dispatch_loop(CallState *cs)
 	unsigned char buf[4];
 	uint32_t len, res;
 	char hoststr[NI_MAXHOST], portstr[NI_MAXSERV];
+	int i;
 
 	assert(cs->sock != -1);
 
@@ -2263,8 +2264,16 @@ static void run_dispatch_loop(CallState *cs)
 		call_reset(cs);
 
 		/* Read the number of bytes ... */
-		if (! cs->read(cs, buf, 4))
+		if (! cs->read(cs, buf, 4)) {
+			gck_rpc_warn
+			    ("failed to read %u bytes", 4);
 			break;
+		}
+
+		/* buf now contains 4 bytes */
+		for(i=0; i < 4; i++) {
+			gck_rpc_warn("value of byte read is %u", buf[i]);
+		}
 
 		/* Calculate the number of bytes */
 		len = egg_buffer_decode_uint32(buf);
