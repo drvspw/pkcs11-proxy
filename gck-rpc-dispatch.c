@@ -2263,7 +2263,7 @@ static void run_dispatch_loop(CallState *cs)
 
 		call_reset(cs);
 
-		gck_rpc_warn("waiting to read bytes");
+		gck_rpc_log("waiting to read bytes");
 
 		/* Read the number of bytes ... */
 		if (! cs->read(cs, buf, 4)) {
@@ -2274,7 +2274,7 @@ static void run_dispatch_loop(CallState *cs)
 
 		/* buf now contains 4 bytes */
 		for(i=0; i < 4; i++) {
-			gck_rpc_warn("value of byte read is %u", buf[i]);
+			gck_rpc_log("value of byte read is %u", buf[i]);
 		}
 
 		/* Calculate the number of bytes */
