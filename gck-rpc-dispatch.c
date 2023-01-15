@@ -2263,6 +2263,8 @@ static void run_dispatch_loop(CallState *cs)
 
 		call_reset(cs);
 
+		gck_rpc_warn("waiting to read bytes");
+
 		/* Read the number of bytes ... */
 		if (! cs->read(cs, buf, 4)) {
 			gck_rpc_warn
