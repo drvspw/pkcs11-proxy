@@ -2243,6 +2243,8 @@ static void run_dispatch_loop(CallState *cs)
 		}
 	}
 
+	gck_rpc_log("First trying to read app_id. The size is %u", sizeof(cs->appid));
+
 	/* The client application */
 	if (! cs->read(cs, (void *)&cs->appid, sizeof (cs->appid))) {
 		gck_rpc_warn("Can't read appid\n");
